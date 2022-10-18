@@ -12,8 +12,6 @@ canvas.height = 700
 
 c.fillRect(0, 0, canvas.width, canvas.height)
 
-
-
 const player = new Player({
     position: {
         x: canvas.width/2,
@@ -39,6 +37,27 @@ const gun = new Gun({
     degrees: 0
 })
 
+addEventListener('mousemove', (e) =>{
+    let eX = e.clientX
+    let eY = e.clientY
+    gun.rotate({
+        eX ,
+        eY,
+        width: player.width,
+        height: player.height,
+        position: player.position
+    })
+})
+
+addEventListener('click', (e)=>{
+    let eX = e.clientX
+    let eY = e.clientY
+
+    player.jump(eY, eX)
+})
+
+
+
 let animate = () =>{
     c.fillStyle = 'rgb(25,25,100)'
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -51,29 +70,10 @@ let animate = () =>{
         bullet.draw()
         bullet.collect(player.position, player.width, player.height, )
     })
-    
 
     requestAnimationFrame(animate)
 }
 
 animate()
 
-
-
-
-
-
-
-addEventListener('mousemove', (e) =>{
-    let eX = e.clientX
-    let eY = e.clientY
-    gun.rotate(eX, eY, player.width, player.height, player.position)
-})
-
-addEventListener('click', (e)=>{
-    let eX = e.clientX
-    let eY = e.clientY
-
-    player.jump(eY, eX)
-})
 

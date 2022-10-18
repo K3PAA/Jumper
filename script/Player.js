@@ -24,11 +24,11 @@ export default class Player{
     }
     update(){
         
-        if(this.position.y <= canvas.height){
-            this.velocity.y += this.gravity
-        }else{
-            console.log('You lost')
-        }
+        // if(this.position.y <= canvas.height){
+        //     this.velocity.y += this.gravity
+        // }else{
+        //     console.log('You lost')
+        // }
 
         if(this.position.x > canvas.width){
             this.position.x = 0
@@ -66,14 +66,14 @@ export default class Player{
         this.bullets --
     }
 
-    ammo(){
-        for(let i=0; i<this.bullets; i++){
-            c.fillStyle = 'orange'
-            this.ammoPosition.y += 50
-            c.fillRect(this.ammoPosition.x, this.ammoPosition.y, 20, 80)
-            console.log(player.ammoPosition.y)
-        }
-    }
+    // ammo(){
+    //     for(let i=0; i<this.bullets; i++){
+    //         c.fillStyle = 'orange'
+    //         this.ammoPosition.y += 50
+    //         c.fillRect(this.ammoPosition.x, this.ammoPosition.y, 20, 80)
+    //         console.log(player.ammoPosition.y)
+    //     }
+    // }
 
     calc(spacing){
 

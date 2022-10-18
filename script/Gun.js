@@ -5,10 +5,11 @@ const c = canvas.getContext('2d')
 canvas.width = 512
 canvas.height = 700
 
+let marginLeft = 100
+
 export default class Gun{
     constructor({gunsize, degrees}){
-
-
+        
         this.gunsize = gunsize
         this.degrees = degrees
         this.canvas = canvas
@@ -31,18 +32,15 @@ export default class Gun{
 
         // console.log('Lewo gora')
         c.fillStyle='red'
-        c.fillRect(0,0, this.gunsize.x, this.gunsize.y)
-        
-
-        
-        
+        c.fillRect(0,0, this.gunsize.x, this.gunsize.y)     
         //Restoring not changed context
         c.restore()
     }
 
-    rotate(eX, eY, width, height, position){
+    rotate({eX, eY, width, height, position}){
 
-        const angle =  Math.atan2(eY - (position.y + (height/2) + (this.gunsize.y/2)) , eX - (position.x + (width/2))) * 180 / Math.PI;
+       // const angle =  Math.atan2(eY - (position.y + (height/2) + (this.gunsize.y/2)) , eX - (position.x + (width/2))) * 180 / Math.PI;
+        const angle =  Math.atan2(eY - height - position.y , eX - marginLeft - (canvas.width/2) - (width/2) ) * 180 / Math.PI;
         
         this.degrees = angle -90
     }
