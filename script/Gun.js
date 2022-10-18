@@ -11,11 +11,8 @@ export default class Gun{
 
         this.gunsize = gunsize
         this.degrees = degrees
-
-        this.bullets = 3
-
         this.canvas = canvas
-        
+
     }
 
     draw(width, height, position){

@@ -1,5 +1,6 @@
 import Gun from "./script/Gun.js"
 import Player from "./script/Player.js"
+import Bullets from "./script/Bullets.js"
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -24,6 +25,10 @@ const player = new Player({
     },
     width: 64,
     height: 64,
+    ammoPosition: {
+        x: 50,
+        y: canvas.height - 200
+    }
 })
 
 const gun = new Gun({
@@ -34,10 +39,6 @@ const gun = new Gun({
     degrees: 0
 })
 
-
-
-
-
 let animate = () =>{
     c.fillStyle = 'rgb(25,25,100)'
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -45,11 +46,23 @@ let animate = () =>{
 
     player.draw()
     gun.draw(player.width, player.height, player.position)
+    
+    Bullets.forEach(bullet => {
+        bullet.draw()
+        bullet.collect(player.position, player.width, player.height, )
+    })
+    
 
     requestAnimationFrame(animate)
 }
 
 animate()
+
+
+
+
+
+
 
 addEventListener('mousemove', (e) =>{
     let eX = e.clientX
@@ -61,5 +74,6 @@ addEventListener('click', (e)=>{
     let eX = e.clientX
     let eY = e.clientY
 
-    player.attack(eY, eX, gun.gunsize)
+    player.jump(eY, eX)
 })
+
