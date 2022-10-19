@@ -24,11 +24,11 @@ export default class Player{
     }
     update(){
         
-        // if(this.position.y <= canvas.height){
-        //     this.velocity.y += this.gravity
-        // }else{
-        //     console.log('You lost')
-        // }
+        if(this.position.y <= canvas.height){
+            this.velocity.y += this.gravity
+        }else{
+           // console.log('You lost')
+        }
 
         if(this.position.x > canvas.width){
             this.position.x = 0
@@ -42,7 +42,6 @@ export default class Player{
     jump(eY, eX){
         if(this.bullets <= 0) return
         else{
-            console.log(this.bullets)
             let spacing = {
                 x: eX - (this.position.x + (this.width/2)),
                 y: eY - (this.position.y + (this.height/2))
@@ -66,15 +65,6 @@ export default class Player{
         this.bullets --
     }
 
-    // ammo(){
-    //     for(let i=0; i<this.bullets; i++){
-    //         c.fillStyle = 'orange'
-    //         this.ammoPosition.y += 50
-    //         c.fillRect(this.ammoPosition.x, this.ammoPosition.y, 20, 80)
-    //         console.log(player.ammoPosition.y)
-    //     }
-    // }
-
     calc(spacing){
 
         if(spacing.x < 32 && spacing.y < 32 || spacing.x < -32 &&spacing.y < -32){
@@ -93,7 +83,7 @@ export default class Player{
         
 
         this.Interval = setTimeout( ()=> {
-            this.velocity.x += 0
+            this.velocity.x += -spacing.x/2000
             this.velocity.y += 0
 
         }, 1)

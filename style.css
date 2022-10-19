@@ -2,11 +2,34 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Inter', sans-serif;
 }
 
-canvas{
+body{
+    background: rgb(180, 211, 133);
+}
+
+.game-container{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     left: 100px;
+}
+canvas{
+    position: relative;
+    top: -50px;
+    border-radius: 5px;
+    box-shadow: 0 0 80px rgb(0,0,0, .5);
+}
+
+.score-container{
+    position: relative;
+    left: 204px;
+    top: 50px;
+    z-index: 10;
+}
+
+.your-score{
+    font-size: 5rem;
+    color: rgba(244,244,244, 0.3)
 }

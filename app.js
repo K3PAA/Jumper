@@ -5,16 +5,20 @@ import Bullets from "./script/Bullets.js"
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
-
 canvas.width = 512
 canvas.height = 700
+
+let ranX
+let ranY
+let bullets = []
+let curr = 0
 
 
 c.fillRect(0, 0, canvas.width, canvas.height)
 
 const player = new Player({
     position: {
-        x: canvas.width/2,
+        x: (canvas.width/2) -34,
         y: 100
     },
     velocity: {
@@ -23,10 +27,10 @@ const player = new Player({
     },
     width: 64,
     height: 64,
-    ammoPosition: {
-        x: 50,
-        y: canvas.height - 200
-    }
+    // ammoPosition: {
+    //     x: 50,
+    //     y: canvas.height - 200
+    // }
 })
 
 const gun = new Gun({
@@ -36,6 +40,8 @@ const gun = new Gun({
     },
     degrees: 0
 })
+
+
 
 addEventListener('mousemove', (e) =>{
     let eX = e.clientX
@@ -61,19 +67,44 @@ addEventListener('click', (e)=>{
 let animate = () =>{
     c.fillStyle = 'rgb(25,25,100)'
     c.fillRect(0, 0, canvas.width, canvas.height)
-
+    
+    bullets.forEach(bullet => {
+        bullet.draw()
+        bullet.collect(player.position, player.width, player.height, bullets)
+    })
 
     player.draw()
     gun.draw(player.width, player.height, player.position)
     
-    Bullets.forEach(bullet => {
-        bullet.draw()
-        bullet.collect(player.position, player.width, player.height, )
-    })
 
     requestAnimationFrame(animate)
 }
 
+
+for(let i=0; i<3; i++){
+    createNew()
+}
+
+function createNew(){
+    curr++
+    ranX = Math.floor(Math.random() * (canvas.width - 40) )
+    ranY = Math.floor(Math.random() * (canvas.height - 200) )
+     
+    const bullet = new Bullets({
+        width: 20,
+        height: 60,
+        position: {
+            x: ranX,
+            y: ranY,
+        },
+        id: curr
+    })  
+    bullets.push(bullet)
+}
+
+
+
+
+
+
 animate()
-
-
