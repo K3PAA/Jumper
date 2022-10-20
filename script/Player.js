@@ -1,19 +1,20 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+const scoreDisplay = document.querySelector('.your-score')
+let score = 0
 
 canvas.width = 512
 canvas.height = 800
 
 export default class Player{
-    constructor({position, velocity, width, height, ammoPosition}){
+    constructor({position, velocity, width, height}){
         this.velocity = velocity
         this.position = position
         this.width = width
         this.height = height
         this.gravity = 0.2
         this.bullets = 3
-        this.ammoPosition = ammoPosition
         this.Interval = undefined
     }
 
@@ -40,8 +41,14 @@ export default class Player{
         this.position.x += this.velocity.x
     }
     jump(eY, eX){
+        
         if(this.bullets <= 0) return
         else{
+
+            score ++
+            if(score < 10) scoreDisplay.innerHTML = `0${score}`
+            else scoreDisplay.innerHTML = score
+
             let spacing = {
                 x: eX - (this.position.x + (this.width/2)),
                 y: eY - (this.position.y + (this.height/2))
@@ -61,6 +68,7 @@ export default class Player{
             }
     
             this.update()
+            
         }
         this.bullets --
     }
@@ -70,7 +78,6 @@ export default class Player{
         if(spacing.x < 32 && spacing.y < 32 || spacing.x < -32 &&spacing.y < -32){
             this.velocity.x = (-spacing.x / 2)
             this.velocity.y = (-spacing.y / 2)
-            console.log('w')
         }else if(spacing.x < 220 && spacing.y < 220 || spacing.x < -220 &&spacing.y < -220){
             this.velocity.x = (-spacing.x / 20)
             this.velocity.y = (-spacing.y / 20)
@@ -78,14 +85,34 @@ export default class Player{
         else{
             this.velocity.x = (-spacing.x / 28)
             this.velocity.y = (-spacing.y / 28)
-            console.log('e')
         }
         
 
         this.Interval = setTimeout( ()=> {
             this.velocity.x += -spacing.x/2000
             this.velocity.y += 0
+        }, 2)
+    }
 
-        }, 1)
+    collect(position, width, height, bullets, i){
+        
+            if(this.position.x < position.x + width &&
+            this.position.x + this.width > position.x &&
+            this.position.y + this.height > position.y &&
+            this.position.y < position.y + height
+            ){
+                this.bullets += 1
+                bullets.splice(i, 1)
+            }
+    }
+
+    bullInfo(ammoW, ammoH){
+        let spacing = 40
+        for(let i=1; i<=this.bullets; i++){
+            
+            c.fillStyle = 'orange'
+            c.fillRect( spacing * i, canvas.height - (ammoH + 30), ammoW, ammoH)
+        }
     }
 }
+

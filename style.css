@@ -31,5 +31,6 @@ canvas{
 
 .your-score{
     font-size: 5rem;
-    color: rgba(244,244,244, 0.3)
+    color: rgba(244,244,244, 0.3);
+    pointer-events: none;
 }

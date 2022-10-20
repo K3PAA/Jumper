@@ -10,29 +10,22 @@ canvas.height = 800
 
 
 export default class Bullets{
-    constructor({width, height, position, id}){
+    constructor({width, height}){
         this.width = width
         this.height = height
-        this.position = position
-        this.id = id
+        this.position = {
+            x: undefined,
+            y: undefined
+        }
+    }
+
+    randomNum(){
+        this.position.x = Math.floor(Math.random() * (canvas.width - 40) )
+        this.position.y = Math.floor(Math.random() * (canvas.height - 200) )
     }
 
     draw(){
         c.fillStyle = 'red'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
-
-    collect(position, width, height, bullets){
-        bullets.forEach(b => {
-            if(this.position.x < position.x + width &&
-            this.position.x + this.width > position.x &&
-            this.position.y + this.height > height &&
-            this.position.y < height + position.y){
-                console.log(this.id)
-                bullets.splice(this.id, 2)
-            }
-         })
-    }
 }
-
-    
