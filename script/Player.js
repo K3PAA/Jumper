@@ -1,8 +1,17 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+import { gameSong } from "../app.js"
+
+const lobby = document.querySelector('.lobby')
+const game = document.querySelector('.game-container')
+
+
+const finalScore = document.querySelector('.final-score')
 const scoreDisplay = document.querySelector('.your-score')
 let score = 0
+
+let lostAudio = new Audio("audio/lost-audio.mp3")
 
 canvas.width = 512
 canvas.height = 800
@@ -21,14 +30,22 @@ export default class Player{
     draw(){
         c.fillStyle = 'rgb(22, 200, 200)'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
-        this.update()
+        
     }
     update(){
-        
+        this.draw()
         if(this.position.y <= canvas.height){
             this.velocity.y += this.gravity
         }else{
-           // console.log('You lost')
+            //lostAudio.play()
+            gameSong.pause()
+            gameSong.currTime = 0
+
+            setTimeout( ()=> {
+                finalScore.innerHTML = score
+                    lobby.classList.remove('offscreen')
+                    game.classList.add('offscreen')
+            },1000)
         }
 
         if(this.position.x > canvas.width){
@@ -44,10 +61,7 @@ export default class Player{
         
         if(this.bullets <= 0) return
         else{
-
-            score ++
-            if(score < 10) scoreDisplay.innerHTML = `0${score}`
-            else scoreDisplay.innerHTML = score
+            
 
             let spacing = {
                 x: eX - (this.position.x + (this.width/2)),
@@ -101,7 +115,10 @@ export default class Player{
             this.position.y + this.height > position.y &&
             this.position.y < position.y + height
             ){
-                this.bullets += 1
+                if(this.bullets < 5) this.bullets += 1
+                score ++
+                if(score < 10) scoreDisplay.innerHTML = `0${score}`
+                else scoreDisplay.innerHTML = score
                 bullets.splice(i, 1)
             }
     }

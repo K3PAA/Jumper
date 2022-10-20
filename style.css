@@ -14,6 +14,7 @@ body{
     top: 50%;
     transform: translateY(-50%);
     left: 100px;
+    transition: all 0.4s ease;
 }
 canvas{
     position: relative;
@@ -33,4 +34,21 @@ canvas{
     font-size: 5rem;
     color: rgba(244,244,244, 0.3);
     pointer-events: none;
+}
+
+.lobby{
+    position: absolute;
+    width: 512px;
+    height: 700px;
+    background: white;
+    z-index: 100;
+    border-radius: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 100px;
+    transition: all 0.4s ease;
+}
+
+.offscreen{
+    transform: translate( -800px, -50%);
 }

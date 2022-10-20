@@ -2,9 +2,21 @@ import Gun from "./script/Gun.js"
 import Player from "./script/Player.js"
 import Bullets from "./script/Bullets.js"
 
+let gameSong = new Audio("audio/game-song.mp3")
+
+export  {gameSong}
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
+
+const startbtn = document.querySelector('.btn-start')
+const lobby = document.querySelector('.lobby')
+const game = document.querySelector('.game-container')
+
+function gameSongStart(){
+    gameSong.play()
+}
+
 
 let bullets = []
 let num = 0
@@ -25,10 +37,6 @@ const player = new Player({
     },
     width: 64,
     height: 64,
-    // ammoPosition: {
-    //     x: 50,
-    //     y: canvas.height - 200
-    // }
 })
 
 const gun = new Gun({
@@ -52,11 +60,6 @@ for(let i=0; i<3; i++){
     bullets.push(bullet)
 }
 
-
-
-
-
-
 addEventListener('mousemove', (e) =>{
     let eX = e.clientX
     let eY = e.clientY
@@ -69,14 +72,6 @@ addEventListener('mousemove', (e) =>{
     })
 })
 
-addEventListener('click', (e)=>{
-    let eX = e.clientX
-    let eY = e.clientY
-
-    player.jump(eY, eX)
-})
-
-
 
 let animate = () =>{
     c.fillStyle = 'rgb(25,25,100)'
@@ -85,14 +80,41 @@ let animate = () =>{
     for(let i=0; i<bullets.length; i++){
         bullets[i].draw()
         player.collect(bullets[i].position, bullets[i].width, bullets[i].height, bullets, i)
+        if(bullets.length < 3){
+                const bullet = new Bullets({
+                width: 20,
+                height: 60,
+                id: num
+            })  
+
+            bullet.randomNum()
+            bullets.push(bullet)
+        }
     }
 
     player.bullInfo(20, 60)
-    player.draw()
+    player.update(animate)
     gun.draw(player.width, player.height, player.position)
 
     requestAnimationFrame(animate)
 }
 
-animate()
+startbtn.addEventListener('click', ()=> {
+
+    lobby.classList.add('offscreen')
+    game.classList.remove('offscreen')
+    
+    gameSongStart()
+
+    setTimeout( ()=> {
+        animate()
+        addEventListener('click', (e)=>{
+            let eX = e.clientX
+            let eY = e.clientY
+
+            player.jump(eY, eX)
+        })
+    }, 400)
+})
+
 
