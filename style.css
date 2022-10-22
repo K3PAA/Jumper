@@ -1,54 +1,88 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-body{
-    background: rgb(180, 211, 133);
+body {
+  background: rgb(180, 211, 133);
+  overflow: hidden;
 }
 
-.game-container{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 100px;
-    transition: all 0.4s ease;
+.game-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100px;
+  transition: all 0.4s ease;
 }
-canvas{
-    position: relative;
-    top: -50px;
-    border-radius: 5px;
-    box-shadow: 0 0 80px rgb(0,0,0, .5);
-}
-
-.score-container{
-    position: relative;
-    left: 204px;
-    top: 50px;
-    z-index: 10;
+canvas {
+  position: relative;
+  top: -50px;
+  border-radius: 5px;
+  box-shadow: 0 0 80px rgb(0, 0, 0, 0.5);
 }
 
-.your-score{
-    font-size: 5rem;
-    color: rgba(244,244,244, 0.3);
-    pointer-events: none;
+.score-container {
+  position: relative;
+  left: 204px;
+  top: 50px;
+  z-index: 10;
 }
 
-.lobby{
-    position: absolute;
-    width: 512px;
-    height: 700px;
-    background: white;
-    z-index: 100;
-    border-radius: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 100px;
-    transition: all 0.4s ease;
+.your-score {
+  font-size: 5rem;
+  color: rgba(244, 244, 244, 0.3);
+  pointer-events: none;
 }
 
-.offscreen{
-    transform: translate( -800px, -50%);
+.lobby {
+  position: absolute;
+  width: 512px;
+  height: 700px;
+  background: white;
+  z-index: 100;
+  opacity: 1;
+  border-radius: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 100px;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+.lobby-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6em;
+  height: 50%;
+}
+
+.lobby-score h3 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.btn {
+  padding: 0.5em 1em;
+  width: 76%;
+  margin: 0 auto;
+  font-size: 3rem;
+  border: 2px solid black;
+  background: transparent;
+  border-radius: 9px;
+  transition: all 0.4s ease;
+}
+.final-score {
+  color: rgb(224, 66, 66);
+}
+.btn:hover {
+  background-color: black;
+  color: white;
+}
+.offscreen {
+  transform: translate(-800px, -50%);
 }

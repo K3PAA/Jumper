@@ -1,120 +1,133 @@
-import Gun from "./script/Gun.js"
-import Player from "./script/Player.js"
-import Bullets from "./script/Bullets.js"
+import Gun from './script/Gun.js'
+import Player from './script/Player.js'
+import Bullets from './script/Bullets.js'
 
-let gameSong = new Audio("audio/game-song.mp3")
-
-export  {gameSong}
+let gameSong = new Audio('audio/game-song.mp3')
+let lostAudio = new Audio('audio/lost-audio.mp3')
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
 const startbtn = document.querySelector('.btn-start')
+const displayFinalScore = document.querySelector('.final-score')
 const lobby = document.querySelector('.lobby')
 const game = document.querySelector('.game-container')
-
-function gameSongStart(){
-    gameSong.play()
-}
-
+const scoreDisplay = document.querySelector('.your-score')
 
 let bullets = []
 let num = 0
 canvas.width = 512
 canvas.height = 700
 
-
 c.fillRect(0, 0, canvas.width, canvas.height)
 
 const player = new Player({
-    position: {
-        x: (canvas.width/2) -34,
-        y: 100
-    },
-    velocity: {
-        x: 0,
-        y: 0,
-    },
-    width: 64,
-    height: 64,
+  position: {
+    x: canvas.width / 2 - 34,
+    y: 100,
+  },
+  velocity: {
+    x: 0,
+    y: 0,
+  },
+  width: 64,
+  height: 64,
+  score: 0,
 })
 
 const gun = new Gun({
-    gunsize: {
-        x: 20,
-        y: 80
-    },
-    degrees: 0,
-    imageWidth: 64
+  gunsize: {
+    x: 20,
+    y: 80,
+  },
+  degrees: 0,
+  imageWidth: 64,
 })
 
+addEventListener('mousemove', (e) => {
+  let eX = e.clientX
+  let eY = e.clientY
+  gun.rotate({
+    eX,
+    eY,
+    width: player.width,
+    height: player.height,
+    position: player.position,
+  })
+})
 
-for(let i=0; i<3; i++){
-    const bullet = new Bullets({
+let animate = () => {
+  c.fillStyle = 'rgb(25,25,100)'
+  c.fillRect(0, 0, canvas.width, canvas.height)
+
+  for (let i = 0; i < bullets.length; i++) {
+    bullets[i].draw()
+    player.collect(
+      bullets[i].position,
+      bullets[i].width,
+      bullets[i].height,
+      bullets,
+      i
+    )
+    if (bullets.length < 3) {
+      const bullet = new Bullets({
         width: 20,
         height: 60,
-        id: num
-    })  
+        id: num,
+      })
 
-    bullet.randomNum()
-    bullets.push(bullet)
-}
-
-addEventListener('mousemove', (e) =>{
-    let eX = e.clientX
-    let eY = e.clientY
-    gun.rotate({
-        eX ,
-        eY,
-        width: player.width,
-        height: player.height,
-        position: player.position
-    })
-})
-
-
-let animate = () =>{
-    c.fillStyle = 'rgb(25,25,100)'
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    
-    for(let i=0; i<bullets.length; i++){
-        bullets[i].draw()
-        player.collect(bullets[i].position, bullets[i].width, bullets[i].height, bullets, i)
-        if(bullets.length < 3){
-                const bullet = new Bullets({
-                width: 20,
-                height: 60,
-                id: num
-            })  
-
-            bullet.randomNum()
-            bullets.push(bullet)
-        }
+      bullet.randomNum()
+      bullets.push(bullet)
     }
+  }
 
+  if (player.position.y > canvas.height) {
+    displayFinalScore.innerHTML = player.score
+    scoreDisplay.innerHTML = 0
+    player.gravity = 0
+    removeEventListener('click', juhujuh)
+    player.reset()
+    gameSong.pause()
+    lobby.classList.remove('offscreen')
+    game.classList.add('offscreen')
+    lostAudio.play()
+  } else {
     player.bullInfo(20, 60)
-    player.update(animate)
+    player.update()
     gun.draw(player.width, player.height, player.position)
 
     requestAnimationFrame(animate)
+  }
 }
 
-startbtn.addEventListener('click', ()=> {
+startbtn.addEventListener('click', () => {
+  bullets = []
+  lobby.classList.add('offscreen')
+  game.classList.remove('offscreen')
 
-    lobby.classList.add('offscreen')
-    game.classList.remove('offscreen')
-    
-    gameSongStart()
+  for (let i = 0; i < 3; i++) {
+    const bullet = new Bullets({
+      width: 20,
+      height: 60,
+      id: num,
+    })
 
-    setTimeout( ()=> {
-        animate()
-        addEventListener('click', (e)=>{
-            let eX = e.clientX
-            let eY = e.clientY
+    bullet.randomNum()
+    bullets.push(bullet)
+  }
+  gameSong.currTime = 0
+  gameSong.play()
 
-            player.jump(eY, eX)
-        })
-    }, 400)
+  setTimeout(() => {
+    player.gravity = 0.2
+    addEventListener('click', juhujuh)
+    animate()
+  }, 400)
 })
 
+function juhujuh(e) {
+  let eX = e.clientX
+  let eY = e.clientY
 
+  player.jump(eY, eX)
+}
