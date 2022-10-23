@@ -4,7 +4,6 @@
 
 - Changing objects to images
 - animating images
-- sound effects
 - reset song when you start game again
 - fixing movement (small bugs)
 - making code cleaner

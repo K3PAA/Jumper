@@ -6,47 +6,46 @@ canvas.height = 700
 
 let marginLeft = 100
 
-export default class Gun{
-    constructor({gunsize, degrees, imageWidth}){
-        
-        this.gunsize = gunsize
-        this.degrees = degrees
-        this.canvas = canvas
-        this.imageWidth = imageWidth
+export default class Gun {
+  constructor({ gunsize, degrees, imageWidth }) {
+    this.gunsize = gunsize
+    this.degrees = degrees
+    this.canvas = canvas
+    this.imageWidth = imageWidth
+  }
 
-    }
+  draw(width, height, position) {
+    const shotgun = new Image()
+    shotgun.src = 'img/guns/shotgun.png'
+    //Saving current context
+    c.save()
 
-    draw(width, height, position){
-        const shotgun = new Image()
-        shotgun.src = 'img/shotgun.png'
-        //Saving current context
-        c.save()
-        
-        //Center the gun position on our player
-        c.translate(position.x + (width/2), position.y + (height/2) );
-        
-        //Rotating our gun
-        c.rotate(this.degrees * Math.PI / 180);
-        
-        //Drawing Gun
+    //Center the gun position on our player
+    c.translate(position.x + width / 2, position.y + height / 2)
 
-        // console.log('Lewo gora')
-        c.fillStyle='red'
-        c.drawImage(shotgun, 0, 0 , 64 , 32, 0, 0, 128, 64) 
-        
-        //Restoring not changed context
-        c.restore()
-  
+    //Rotating our gun
+    c.rotate((this.degrees * Math.PI) / 180)
 
-    }
+    //Drawing Gun
 
- 
+    // console.log('Lewo gora')
+    c.fillStyle = 'red'
+    c.drawImage(shotgun, 0, 0, 64, 32, 0, 0, 128, 64)
 
-    rotate({eX, eY, width, height, position}){
+    //Restoring not changed context
+    c.restore()
+  }
 
-       // const angle =  Math.atan2(eY - (position.y + (height/2) + (this.gunsize.y/2)) , eX - (position.x + (width/2))) * 180 / Math.PI;
-        const angle =  Math.atan2(eY - height - position.y , eX - marginLeft - (canvas.width/2) - (width/2) ) * 180 / Math.PI;
-        
-        this.degrees = angle
-    }
+  rotate({ eX, eY, width, height, position }) {
+    // const angle =  Math.atan2(eY - (position.y + (height/2) + (this.gunsize.y/2)) , eX - (position.x + (width/2))) * 180 / Math.PI;
+    const angle =
+      (Math.atan2(
+        eY - height - position.y,
+        eX - marginLeft - canvas.width / 2 - width / 2
+      ) *
+        180) /
+      Math.PI
+
+    this.degrees = angle
+  }
 }

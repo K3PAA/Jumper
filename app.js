@@ -3,7 +3,9 @@ import Player from './script/Player.js'
 import Bullets from './script/Bullets.js'
 
 let gameSong = new Audio('audio/game-song.mp3')
-let lostAudio = new Audio('audio/lost-audio.mp3')
+gameSong.volume = 0.5
+let lostAudio = new Audio('audio/lostAudio.mp3')
+lostAudio.volume = 0.5
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -16,10 +18,12 @@ const scoreDisplay = document.querySelector('.your-score')
 
 let bullets = []
 let num = 0
+
+const bg = new Image()
+bg.src = 'img/bg/bg-1.jpg'
+
 canvas.width = 512
 canvas.height = 700
-
-c.fillRect(0, 0, canvas.width, canvas.height)
 
 const player = new Player({
   position: {
@@ -60,6 +64,8 @@ let animate = () => {
   c.fillStyle = 'rgb(25,25,100)'
   c.fillRect(0, 0, canvas.width, canvas.height)
 
+  c.drawImage(bg, 0, 0, bg.width, bg.height, 0, 0, canvas.width, canvas.height)
+
   for (let i = 0; i < bullets.length; i++) {
     bullets[i].draw()
     player.collect(
@@ -88,6 +94,7 @@ let animate = () => {
     removeEventListener('click', juhujuh)
     player.reset()
     gameSong.pause()
+    gameSong.currentTime = 0
     lobby.classList.remove('offscreen')
     game.classList.add('offscreen')
     lostAudio.play()
@@ -115,7 +122,6 @@ startbtn.addEventListener('click', () => {
     bullet.randomNum()
     bullets.push(bullet)
   }
-  gameSong.currTime = 0
   gameSong.play()
 
   setTimeout(() => {
