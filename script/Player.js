@@ -3,6 +3,12 @@ const c = canvas.getContext('2d')
 
 const scoreDisplay = document.querySelector('.your-score')
 
+const ammo = new Image()
+ammo.src = 'img/ammo/gun-ammo.jpg'
+
+const playerImg = new Image()
+playerImg.src = 'img/player/player2.jpg'
+
 canvas.width = 512
 canvas.height = 800
 
@@ -20,8 +26,17 @@ export default class Player {
   }
 
   draw() {
-    c.fillStyle = 'rgb(22, 200, 200)'
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    c.drawImage(
+      playerImg,
+      0,
+      0,
+      playerImg.width,
+      playerImg.height,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    )
   }
   update() {
     if (this.position.y <= canvas.height) {
@@ -103,8 +118,19 @@ export default class Player {
   bullInfo(ammoW, ammoH) {
     let spacing = 40
     for (let i = 1; i <= this.bullets; i++) {
-      c.fillStyle = 'orange'
-      c.fillRect(spacing * i, canvas.height - (ammoH + 30), ammoW, ammoH)
+      //c.fillRect(spacing * i, canvas.height - (ammoH + 30), ammoW, ammoH)
+
+      c.drawImage(
+        ammo,
+        0,
+        0,
+        512,
+        512,
+        spacing * i,
+        canvas.height - (ammoH + 30),
+        ammoW,
+        ammoH
+      )
     }
   }
 

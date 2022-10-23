@@ -34,8 +34,8 @@ const player = new Player({
     x: 0,
     y: 0,
   },
-  width: 64,
-  height: 64,
+  width: 100,
+  height: 100,
   score: 0,
 })
 
@@ -77,8 +77,8 @@ let animate = () => {
     )
     if (bullets.length < 3) {
       const bullet = new Bullets({
-        width: 20,
-        height: 60,
+        width: 40,
+        height: 70,
         id: num,
       })
 
@@ -99,7 +99,7 @@ let animate = () => {
     game.classList.add('offscreen')
     lostAudio.play()
   } else {
-    player.bullInfo(20, 60)
+    player.bullInfo(40, 70)
     player.update()
     gun.draw(player.width, player.height, player.position)
 
@@ -114,8 +114,8 @@ startbtn.addEventListener('click', () => {
 
   for (let i = 0; i < 3; i++) {
     const bullet = new Bullets({
-      width: 20,
-      height: 60,
+      width: 40,
+      height: 70,
       id: num,
     })
 
